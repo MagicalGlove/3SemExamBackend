@@ -28,7 +28,7 @@ public class Populator {
 //        fe.create(new RenameMeDTO(new RenameMe("First 3", "Last 3")));
 
         Role role = new Role("user");
-        User u1 = new User("UserMan", "123");
+        User u1 = new User("UserTime", "123");
 
         u1.addRole(role);
 
