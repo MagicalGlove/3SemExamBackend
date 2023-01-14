@@ -20,16 +20,19 @@ import org.mindrot.jbcrypt.BCrypt;
 public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   @Id
   @Basic(optional = false)
   @NotNull
   @Column(name = "user_name", length = 25)
   private String userName;
+
   @Basic(optional = false)
   @NotNull
   @Size(min = 1, max = 255)
   @Column(name = "user_pass")
   private String userPass;
+
   @JoinTable(name = "user_roles", joinColumns = {
     @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
     @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
@@ -48,6 +51,12 @@ public class User implements Serializable {
   }
 
   public User() {}
+
+  public User(String userName, String userPass, List<Role> roleList) {
+    this.userName = userName;
+    this.userPass = userPass;
+    this.roleList = roleList;
+  }
 
   //TODO Change when password is hashed
   public boolean verifyPassword(String pw) {
