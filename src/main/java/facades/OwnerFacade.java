@@ -59,7 +59,7 @@ public class OwnerFacade {
 
         return owners;
     }
-//  This would have been better, but each dog also had their owner and walkers, causing stack overflow.
+
     public List<Dog> getAllDogsFromOwnerId(long ownerId) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d JOIN d.owner o WHERE o.id = :ownerId", Dog.class);
@@ -74,24 +74,7 @@ public class OwnerFacade {
         return dogs;
     }
 
-//    public ArrayList<Dog> getAllDogsFromOwnerId(long id) {
-//        EntityManager em = emf.createEntityManager();
-//
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<Dog> cq = cb.createQuery(Dog.class);
-//        Root<Dog> root = cq.from(Dog.class);
-//        cq.multiselect(root.get("id"), root.get("name"), root.get("breed"), root.get("image"), root.get("gender"), root.get("birthday")).where(cb.equal(root.get("owner_id"), id));
-//        TypedQuery<Dog> query = em.createQuery(cq);
-//        List<Dog> dogList = query.getResultList();
-//
-//        ArrayList<Dog> dogArrayList = new ArrayList<>(dogList);
-//
-//        return dogArrayList;
-//    }
-
-
     public static void main(String[] args) {
     }
-
 
 }

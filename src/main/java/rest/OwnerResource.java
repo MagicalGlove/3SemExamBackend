@@ -36,14 +36,7 @@ public class OwnerResource {
         List<Dog> dogs = FACADE.getAllDogsFromOwnerId(ownerId);
         String json = GSON.toJson(dogs);
         return Response.ok().entity(json).build();
-
-//        List<Dog> doggos = new ArrayList<>();
-//        Dog woof = new Dog(1L, "Woofer", "ShadowRace", "cool.jpg", "male", "02/10/2017");
-//        doggos.add(woof);
-//        System.out.println("doggos: " + doggos);
-//        String json = GSON.toJson(woof);
-//        System.out.println("json: " + json);
-//        return Response.ok().entity(json).build();
+        
     }
 
 }
