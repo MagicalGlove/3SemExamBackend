@@ -34,12 +34,7 @@ public class WalkerResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllWalkers() {
         List<Walker> walkers = FACADE.getAllWalkers();
-        System.out.println("Im here now");
-        System.out.println("indeed");
-        System.out.println("walkers: " + walkers);
         String json = GSON.toJson(walkers);
-        System.out.println("now Im here");
-        System.out.println("json: " + json);
         return Response.ok().entity(json).build();
     }
 

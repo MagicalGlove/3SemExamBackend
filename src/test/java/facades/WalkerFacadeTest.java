@@ -106,11 +106,11 @@ public class WalkerFacadeTest {
 //        Remove any data after each test was run
     }
 
-    // TODO: Delete or change this method
-//    @Test
-//    public void testAFacadeMethod() throws Exception {
-//        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
-//    }
+
+    @Test
+    public void getAmountOfOwners() throws Exception {
+        assertEquals(2, facade.getWalkerCount(), "Expects two owners in the database");
+    }
 
 
     @Test

@@ -7,6 +7,9 @@ import entities.Walker;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 public class WalkerFacade {
@@ -36,12 +39,29 @@ public class WalkerFacade {
         return emf.createEntityManager();
     }
 
-    public List<Walker> getAllWalkers() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Walker> query = em.createQuery("SELECT w FROM Walker w", Walker.class);
-        List<Walker> walkers = query.getResultList();
+    public long getWalkerCount(){
+        EntityManager em = getEntityManager();
+        try{
+            long walkerCounter = (long)em.createQuery("SELECT COUNT(w) FROM Walker w").getSingleResult();
+            return walkerCounter;
+        }finally{
+            em.close();
+        }
+    }
 
-        return walkers;
+    public ArrayList<Walker> getAllWalkers() {
+        EntityManager em = emf.createEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Walker> cq = cb.createQuery(Walker.class);
+        Root<Walker> root = cq.from(Walker.class);
+        cq.multiselect(root.get("id"), root.get("name"), root.get("address"), root.get("phone"));
+        TypedQuery<Walker> query = em.createQuery(cq);
+        List<Walker> walkerList = query.getResultList();
+
+        ArrayList<Walker> walkerArrayList = new ArrayList<>(walkerList);
+
+        return walkerArrayList;
     }
 
 
