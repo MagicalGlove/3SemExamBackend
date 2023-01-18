@@ -60,6 +60,20 @@ public class OwnerFacade {
         return owners;
     }
 
+    public List<Dog> getAllDogs() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d JOIN d.owner o", Dog.class);
+
+        List<Dog> dogs = query.getResultList();
+        for (int i = 0; i < dogs.size(); i++) {
+            dogs.get(i).setOwner(null);
+            dogs.get(i).setWalkers(null);
+        }
+
+        return dogs;
+    }
+
+
     public List<Dog> getAllDogsFromOwnerId(long ownerId) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d JOIN d.owner o WHERE o.id = :ownerId", Dog.class);

@@ -33,10 +33,16 @@ public class OwnerResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllDogsFromOwnerId(@PathParam("ownerId") long ownerId) throws EntityNotFoundException {
+        if (ownerId == 0) {
+            List<Dog> allDogs = FACADE.getAllDogs();
+            String json = GSON.toJson(allDogs);
+            return Response.ok().entity(json).build();
+        }
+
         List<Dog> dogs = FACADE.getAllDogsFromOwnerId(ownerId);
+
         String json = GSON.toJson(dogs);
         return Response.ok().entity(json).build();
-        
     }
 
 }
