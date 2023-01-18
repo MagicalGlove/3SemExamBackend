@@ -67,10 +67,10 @@ public class Populator {
         Walker w4 = new Walker("Emily Davis", "321 Oak St", "98765432", wDogs4);
         Walker w5 = new Walker("Michael Brown", "654 Pine St", "73845928", wDogs5);
 
-        Dog d1 = new Dog("Max", "Golden Retriever", "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*", "Male", "01/01/2010", walkers1);
-        Dog d2 = new Dog("Bella", "Labrador Retriever", "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_4x3.jpg", "Female", "02/14/2012", walkers2);
+        Dog d1 = new Dog("Max", "Golden Retriever", "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*", "Male", "01/01/2020", walkers1);
+        Dog d2 = new Dog("Bella", "Labrador Retriever", "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_4x3.jpg", "Female", "02/10/2012", walkers2);
         Dog d3 = new Dog("Charlie", "Poodle", "https://cdn-prod.medicalnewstoday.com/content/images/articles/322/322868/golden-retriever-puppy.jpg", "Male", "03/01/2015", walkers3);
-        Dog d4 = new Dog("Lucy", "Beagle", "https://dk.bellfor.info/image/catalog/Blog/blog_pictures_multilang/beagledog.jpg", "Female", "04/20/2018", walkers4);
+        Dog d4 = new Dog("Lucy", "Beagle", "https://dk.bellfor.info/image/catalog/Blog/blog_pictures_multilang/beagledog.jpg", "Female", "04/10/2018", walkers4);
         Dog d5 = new Dog("Rocky", "German Shepherd", "https://www.akc.org/wp-content/uploads/2016/06/German-Shepherd-Dog-laying-down-in-the-backyard-500x487.jpeg", "Male", "05/10/2020", walkers5);
 
         Owner o1 = new Owner("John Smith", "123 Main St", "32154879", oDogs1);
