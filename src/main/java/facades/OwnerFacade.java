@@ -35,6 +35,16 @@ public class OwnerFacade {
         return emf.createEntityManager();
     }
 
+    public long getOwnerCount(){
+        EntityManager em = getEntityManager();
+        try{
+            long ownerCount = (long)em.createQuery("SELECT COUNT(o) FROM Owner o").getSingleResult();
+            return ownerCount;
+        }finally{
+            em.close();
+        }
+    }
+
     public List<Owner> getAllOwners() {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Owner> query = em.createQuery("SELECT o FROM Owner o", Owner.class);

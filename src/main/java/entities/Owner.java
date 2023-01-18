@@ -89,6 +89,19 @@ public class Owner implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Owner)) return false;
+        Owner owner = (Owner) o;
+        return getId().equals(owner.getId()) && getName().equals(owner.getName()) && getAddress().equals(owner.getAddress()) && getPhone().equals(owner.getPhone());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getAddress(), getPhone());
+    }
+
+    @Override
     public String toString() {
         return "Owner{" +
                 "id=" + id +
