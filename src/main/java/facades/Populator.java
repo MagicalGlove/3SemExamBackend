@@ -36,21 +36,14 @@ public class Populator {
         try {
             em.getTransaction().begin();
 
-
             em.persist(role);
 
             em.persist(u1);
-
-
-
 
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-
-
-
 
     }
     
