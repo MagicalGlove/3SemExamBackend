@@ -2,6 +2,7 @@ package facades;
 
 import dtos.OwnerDto;
 import entities.Owner;
+import entities.Walker;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,12 +36,12 @@ public class WalkerFacade {
         return emf.createEntityManager();
     }
 
-    public List<Owner> getAllOwners() {
+    public List<Walker> getAllWalkers() {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Owner> query = em.createQuery("SELECT o FROM Owner o", Owner.class);
-        List<Owner> owners = query.getResultList();
+        TypedQuery<Walker> query = em.createQuery("SELECT w FROM Walker w", Walker.class);
+        List<Walker> walkers = query.getResultList();
 
-        return owners;
+        return walkers;
     }
 
 

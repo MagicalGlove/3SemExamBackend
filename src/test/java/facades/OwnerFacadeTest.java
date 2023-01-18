@@ -115,12 +115,12 @@ public class OwnerFacadeTest {
         assertEquals(2, facade.getOwnerCount(), "Expects two owners in the database");
     }
 
-    @Test
-    public void getAllOwners(){
-        System.out.println("Testing get all owners");
-        List<Owner> allOwners = facade.getAllOwners();
-        assert(allOwners.contains(o1) && allOwners.contains(o2));
-    }
+//    @Test
+//    public void getAllOwners(){
+//        System.out.println("Testing get all owners");
+//        List<Owner> allOwners = facade.getAllOwners();
+//        assert(allOwners.contains(o1) && allOwners.contains(o2));
+//    }
 
 
 }

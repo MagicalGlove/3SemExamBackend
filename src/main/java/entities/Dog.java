@@ -34,7 +34,8 @@ public class Dog implements Serializable {
     @Column(name = "birthday")
     private String birthday;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+//            (fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 

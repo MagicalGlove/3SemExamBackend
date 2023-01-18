@@ -1,10 +1,7 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -30,7 +27,6 @@ public class Walker implements Serializable {
     @Column(name = "phone")
     private String phone;
 
-
     @ManyToMany
     @JoinTable(
             name = "walker_dogs",
@@ -39,6 +35,19 @@ public class Walker implements Serializable {
     private List<Dog> dogs = new ArrayList<>();
 
     public Walker() {}
+
+    public Walker(String name, String address, String phone) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
+    public Walker(Long id, String name, String address, String phone) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
 
     public Walker(String name, String address, String phone, List<Dog> dogs) {
         this.name = name;
@@ -85,6 +94,19 @@ public class Walker implements Serializable {
 
     public void setDogs(List<Dog> dogs) {
         this.dogs = dogs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Walker)) return false;
+        Walker walker = (Walker) o;
+        return getId().equals(walker.getId()) && Objects.equals(getName(), walker.getName()) && Objects.equals(getAddress(), walker.getAddress()) && Objects.equals(getPhone(), walker.getPhone());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getAddress(), getPhone());
     }
 
     @Override

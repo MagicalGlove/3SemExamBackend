@@ -1,56 +1,81 @@
-package facades;
+package rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import entities.Dog;
 import entities.Owner;
 import entities.Walker;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.util.HttpStatus;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
-import entities.RenameMe;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-//Uncomment the line below, to temporarily disable this test
-//@Disabled
-public class WalkerFacadeTest {
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
+
+public class WalkerResourceTest {
+    private static final int SERVER_PORT = 7777;
+    private static final String SERVER_URL = "http://localhost/api";
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
+    private static HttpServer httpServer;
     private static EntityManagerFactory emf;
-    private static WalkerFacade facade;
 
     private Owner o1, o2, o3, o4, o5;
     private Dog d1, d2, d3, d4, d5;
     private Walker w1, w2, w3, w4, w5;
 
 
-
-    public WalkerFacadeTest() {
+    static HttpServer startServer() {
+        ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
+        return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
     @BeforeAll
     public static void setUpClass() {
+
+        EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-        facade = WalkerFacade.getWalkerFacade(emf);
+
+        httpServer = startServer();
+        //Setup RestAssured
+        RestAssured.baseURI = SERVER_URL;
+        RestAssured.port = SERVER_PORT;
+        RestAssured.defaultParser = Parser.JSON;
     }
 
     @AfterAll
-    public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+    public static void closeTestServer() {
+
+        EMF_Creator.endREST_TestWithDB();
+        httpServer.shutdownNow();
     }
 
-    // Setup the DataBase in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the code below to use YOUR OWN entity class
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
+
+
+//        em.createQuery("delete FROM hobbies_people").executeUpdate();
+//        em.create
+
 
             em.createNamedQuery("Walker.deleteAllRows").executeUpdate();
             em.createNamedQuery("Dog.deleteAllRows").executeUpdate();
@@ -99,6 +124,13 @@ public class WalkerFacadeTest {
         } finally {
             em.close();
         }
+
+    }
+
+    @Test
+    public void testServerIsUp() {
+        System.out.println("Testing is server UP");
+        given().when().get("owner").then().statusCode(200);
     }
 
     @AfterEach
@@ -106,18 +138,19 @@ public class WalkerFacadeTest {
 //        Remove any data after each test was run
     }
 
-    // TODO: Delete or change this method
-//    @Test
-//    public void testAFacadeMethod() throws Exception {
-//        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
-//    }
-
-
     @Test
-    public void getAllWalkers(){
-        System.out.println("Testing get all walkers");
-        List<Walker> allWalkers = facade.getAllWalkers();
-        assert(allWalkers.contains(w1) && allWalkers.contains(w2));
+    public void testGetAllWalkers() {
+        List<Walker> walkers;
+
+        walkers = given()
+                .contentType("application/json")
+                .when()
+                .get("/walker/all")
+                .then()
+                .extract().body().jsonPath().getList("", Walker.class);
+        List<Walker> walkersActual = new ArrayList<>();
+
+        assertThat(walkersActual, containsInAnyOrder(w1));
     }
 
 }

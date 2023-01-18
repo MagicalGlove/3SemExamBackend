@@ -47,7 +47,8 @@ public class OwnerFacade {
 
     public List<Owner> getAllOwners() {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Owner> query = em.createQuery("SELECT o FROM Owner o", Owner.class);
+        TypedQuery<Owner> query = em.createQuery("SELECT o FROM Owner o INNER JOIN FETCH o.dogs", Owner.class);
+
         List<Owner> owners = query.getResultList();
         System.out.println("Owners OWOWOWO: " + owners);
 

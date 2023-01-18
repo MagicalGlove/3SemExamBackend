@@ -34,6 +34,7 @@ public class ApplicationConfig extends Application {
         resources.add(security.errorhandling.NotAuthorizedExceptionMapper.class);
         resources.add(rest.JokeResource.class);
         resources.add(rest.OwnerResource.class);
+        resources.add(rest.WalkerResource.class);
     }
     
 }
