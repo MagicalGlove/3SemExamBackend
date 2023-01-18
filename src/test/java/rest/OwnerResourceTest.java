@@ -1,59 +1,80 @@
-package facades;
+package rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import entities.Dog;
 import entities.Owner;
 import entities.Walker;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.util.HttpStatus;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
-import entities.RenameMe;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-//Uncomment the line below, to temporarily disable this test
-//@Disabled
-public class OwnerFacadeTest {
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
+
+public class OwnerResourceTest {
+    private static final int SERVER_PORT = 7777;
+    private static final String SERVER_URL = "http://localhost/api";
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
+    private static HttpServer httpServer;
     private static EntityManagerFactory emf;
-    private static OwnerFacade facade;
 
     private Owner o1, o2, o3, o4, o5;
     private Dog d1, d2, d3, d4, d5;
     private Walker w1, w2, w3, w4, w5;
 
 
-    public OwnerFacadeTest() {
+    static HttpServer startServer() {
+        ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
+        return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
 
     @BeforeAll
     public static void setUpClass() {
+
+        EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-        facade = OwnerFacade.getOwnerFacade(emf);
+
+        httpServer = startServer();
+        //Setup RestAssured
+        RestAssured.baseURI = SERVER_URL;
+        RestAssured.port = SERVER_PORT;
+        RestAssured.defaultParser = Parser.JSON;
     }
 
     @AfterAll
-    public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+    public static void closeTestServer() {
+
+        EMF_Creator.endREST_TestWithDB();
+        httpServer.shutdownNow();
     }
 
-    // Setup the DataBase in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the code below to use YOUR OWN entity class
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
+
+
+//        em.createQuery("delete FROM hobbies_people").executeUpdate();
+//        em.create
 
 
             em.createNamedQuery("Walker.deleteAllRows").executeUpdate();
@@ -103,6 +124,13 @@ public class OwnerFacadeTest {
         } finally {
             em.close();
         }
+
+    }
+
+    @Test
+    public void testServerIsUp() {
+        System.out.println("Testing is server UP");
+        given().when().get("owner").then().statusCode(200);
     }
 
     @AfterEach
@@ -111,16 +139,18 @@ public class OwnerFacadeTest {
     }
 
     @Test
-    public void getAmountOfOwners() throws Exception {
-        assertEquals(2, facade.getOwnerCount(), "Expects two owners in the database");
-    }
+    public void testGetAll() {
+        List<Owner> owners;
 
-    @Test
-    public void getAllOwners(){
-        System.out.println("Testing get all owners");
-        List<Owner> allOwners = facade.getAllOwners();
-        assert(allOwners.contains(o1) && allOwners.contains(o2));
-    }
+        owners = given()
+                .contentType("application/json")
+                .when()
+                .get("/owner/allowners")
+                .then()
+                .extract().body().jsonPath().getList("", Owner.class);
+        List<Owner> ownersActual = new ArrayList<>();
 
+        assertThat(ownersActual, containsInAnyOrder(o1));
+    }
 
 }

@@ -49,6 +49,7 @@ public class OwnerFacade {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Owner> query = em.createQuery("SELECT o FROM Owner o", Owner.class);
         List<Owner> owners = query.getResultList();
+        System.out.println("Owners OWOWOWO: " + owners);
 
         return owners;
     }
