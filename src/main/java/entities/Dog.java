@@ -44,14 +44,24 @@ public class Dog implements Serializable {
             name = "walker_dogs",
             joinColumns = @JoinColumn(name = "dog_id"),
             inverseJoinColumns = @JoinColumn(name = "walker_id"))
-    private Set<Walker> walkers = new LinkedHashSet<>();
+    private List<Walker> walkers = new ArrayList<>();
 
     public Dog() {}
+
+    public Dog(String name, String breed, String image, String gender, String birthday, List<Walker> walkers) {
+        this.name = name;
+        this.breed = breed;
+        this.image = image;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.walkers = walkers;
+    }
 
     //TODO Change when password is hashed
     // public boolean verifyPassword(String pw) {
     //     return BCrypt.checkpw(pw, password);
     //}
+
 
 
     public Long getId() {
@@ -110,11 +120,11 @@ public class Dog implements Serializable {
         this.owner = owner;
     }
 
-    public Set<Walker> getWalkers() {
+    public List<Walker> getWalkers() {
         return walkers;
     }
 
-    public void setWalkers(Set<Walker> walkers) {
+    public void setWalkers(List<Walker> walkers) {
         this.walkers = walkers;
     }
 

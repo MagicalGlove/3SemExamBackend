@@ -35,6 +35,13 @@ public class Owner implements Serializable {
 
     public Owner() {}
 
+    public Owner(String name, String address, String phone, List<Dog> dogs) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.dogs = dogs;
+    }
+
     //TODO Change when password is hashed
     // public boolean verifyPassword(String pw) {
     //     return BCrypt.checkpw(pw, password);

@@ -40,6 +40,13 @@ public class Walker implements Serializable {
 
     public Walker() {}
 
+    public Walker(String name, String address, String phone, List<Dog> dogs) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.dogs = dogs;
+    }
+
     public Long getId() {
         return id;
     }
