@@ -27,6 +27,14 @@ public class DogResource {
         return "{\"msg\":\"Hello World\"}";
     }
 
+    @GET
+    @Path("/getbyid/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getById(@PathParam("id") int id) {
+        Dog dog = FACADE.getById(id);
+        return Response.ok().entity(GSON.toJson(dog)).build();
+    }
+
     @POST
 //    @RolesAllowed("admin")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -40,7 +48,7 @@ public class DogResource {
 
     @PUT
     @Path("updateDog/{id}")
-    @RolesAllowed("admin")
+//    @RolesAllowed("admin")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public Response update(@PathParam("id") Long id, String content) throws EntityNotFoundException {

@@ -36,12 +36,12 @@ public class DogFacade {
         return emf.createEntityManager();
     }
 
-    public long getDogCount(){
+    public long getDogCount() {
         EntityManager em = getEntityManager();
-        try{
-            long dogCount = (long)em.createQuery("SELECT COUNT(d) FROM Dog d").getSingleResult();
+        try {
+            long dogCount = (long) em.createQuery("SELECT COUNT(d) FROM Dog d").getSingleResult();
             return dogCount;
-        }finally{
+        } finally {
             em.close();
         }
     }
@@ -59,9 +59,9 @@ public class DogFacade {
         return dogs;
     }
 
-    public Dog createDog(Dog dog){
+    public Dog createDog(Dog dog) {
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             em.persist(dog);
             em.getTransaction().commit();
@@ -72,9 +72,9 @@ public class DogFacade {
         return dog;
     }
 
-    public Dog update(Dog dog){
+    public Dog update(Dog dog) {
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(dog);
             em.getTransaction().commit();
@@ -85,6 +85,19 @@ public class DogFacade {
         return dog;
     }
 
+    public Dog getById(long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Dog dog = em.find(Dog.class, id);
+            dog.setOwner(null);
+            dog.setWalkers(null);
+            return dog;
+        } finally {
+            em.close();
+        }
+    }
+
+
     public Dog deleteDog(long id) {
         EntityManager em = emf.createEntityManager();
 
@@ -94,7 +107,7 @@ public class DogFacade {
             em.getTransaction().begin();
             em.remove(dog);
             em.getTransaction().commit();
-        }finally {
+        } finally {
             em.close();
         }
 
