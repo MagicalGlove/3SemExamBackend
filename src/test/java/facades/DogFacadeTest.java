@@ -123,6 +123,7 @@ public class DogFacadeTest {
     @Test
     public void testDeleteDog() {
         EntityManager em = emf.createEntityManager();
+        long initialCount = facade.getDogCount();
 
         Dog dogToDelete = new Dog("Rocky", "German Shepherd", "image5.jpg", "Male", "05/10/2020");
         try {
@@ -142,7 +143,7 @@ public class DogFacadeTest {
         long dogCountAfterDelete = facade.getDogCount();
 
         assertEquals(dogCountBeforeDelete - 1, dogCountAfterDelete);
+        assertEquals(initialCount, dogCountAfterDelete);
     }
-
 
 }
