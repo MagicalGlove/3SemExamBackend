@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.OwnerDto;
+import entities.Dog;
 import entities.Owner;
 
 import javax.persistence.EntityManager;
@@ -41,6 +42,19 @@ public class DogFacade {
         List<Owner> owners = query.getResultList();
 
         return owners;
+    }
+
+    public Dog update(Dog dog){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.merge(dog);
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+        return dog;
     }
 
 

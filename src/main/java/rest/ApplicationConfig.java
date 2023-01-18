@@ -35,6 +35,7 @@ public class ApplicationConfig extends Application {
         resources.add(rest.JokeResource.class);
         resources.add(rest.OwnerResource.class);
         resources.add(rest.WalkerResource.class);
+        resources.add(rest.DogResource.class);
     }
     
 }
