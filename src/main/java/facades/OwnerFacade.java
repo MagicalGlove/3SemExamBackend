@@ -8,13 +8,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.*;
 
-public class WalkerFacade {
+public class OwnerFacade {
 
-    private static WalkerFacade instance;
+    private static OwnerFacade instance;
     private static EntityManagerFactory emf;
 
     //Private Constructor to ensure Singleton
-    private WalkerFacade() {
+    private OwnerFacade() {
     }
 
 
@@ -23,10 +23,10 @@ public class WalkerFacade {
      * @return an instance of this facade class.
      */
 
-    public static WalkerFacade getWalkerFacade(EntityManagerFactory _emf) {
+    public static OwnerFacade getOwnerFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new WalkerFacade();
+            instance = new OwnerFacade();
         }
         return instance;
     }
