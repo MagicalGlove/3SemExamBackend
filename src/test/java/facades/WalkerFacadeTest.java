@@ -117,6 +117,9 @@ public class WalkerFacadeTest {
     public void getAllWalkers(){
         System.out.println("Testing get all walkers");
         List<Walker> allWalkers = facade.getAllWalkers();
+        System.out.println("allWalkers: " + allWalkers);
+        System.out.println("w1: " + w1);
+        System.out.println("w2: " + w2);
         assert(allWalkers.contains(w1) && allWalkers.contains(w2));
     }
 

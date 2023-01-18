@@ -138,19 +138,18 @@ public class OwnerResourceTest {
 //        Remove any data after each test was run
     }
 
-//    @Test
-//    public void testGetAll() {
-//        List<Owner> owners;
-//
-//        owners = given()
-//                .contentType("application/json")
-//                .when()
-//                .get("/owner/allowners")
-//                .then()
-//                .extract().body().jsonPath().getList("", Owner.class);
-//        List<Owner> ownersActual = new ArrayList<>();
-//
-//        assertThat(ownersActual, containsInAnyOrder(o1));
-//    }
+    @Test
+    public void testGetAllDogsFromOwnerId() {
+        List<Dog> dogs;
+
+        dogs = given()
+                .contentType("application/json")
+                .when()
+                .get("/owner/dogs/" + o1.getId())
+                .then()
+                .extract().body().jsonPath().getList("", Dog.class);
+
+        assertThat(dogs, containsInAnyOrder(d1));
+    }
 
 }

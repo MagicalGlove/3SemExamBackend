@@ -68,6 +68,7 @@ public class OwnerFacadeTest {
 
             List<Walker> walkers1 = new ArrayList<>();
             List<Walker> walkers2 = new ArrayList<>();
+            List<Walker> walkers3 = new ArrayList<>();
 
 
             w1 = new Walker("John Smith", "123 Main St", "70548963", wDogs1);
@@ -76,6 +77,7 @@ public class OwnerFacadeTest {
 
             d1 = new Dog("Max", "Golden Retriever", "image.jpg", "Male", "01/01/2010", walkers1);
             d2 = new Dog("Bella", "Labrador Retriever", "image2.jpg", "Female", "02/14/2012", walkers2);
+            d3 = new Dog("Charlie", "Poodle", "image3.jpg", "Male", "03/01/2015", walkers3);
 
 
             o1 = new Owner("John Smith", "123 Main St", "32154879", oDogs1);
@@ -85,7 +87,8 @@ public class OwnerFacadeTest {
             w2.getDogs().add(d2);
 
             d1.setOwner(o1);
-            d2.setOwner(o2);
+            d2.setOwner(o1);
+            d3.setOwner(o2);
 
 //            o1.getDogs().add(d1);
 //            o2.getDogs().add(d2);
@@ -95,6 +98,7 @@ public class OwnerFacadeTest {
 
             em.persist(d1);
             em.persist(d2);
+            em.persist(d3);
 
             em.persist(o1);
             em.persist(o2);
@@ -115,12 +119,12 @@ public class OwnerFacadeTest {
         assertEquals(2, facade.getOwnerCount(), "Expects two owners in the database");
     }
 
-//    @Test
-//    public void getAllOwners(){
-//        System.out.println("Testing get all owners");
-//        List<Owner> allOwners = facade.getAllOwners();
-//        assert(allOwners.contains(o1) && allOwners.contains(o2));
-//    }
+    @Test
+    public void getAllDogsFromOwnerId(){
+        System.out.println("Testing get all dogs from Owner Id");
+        List<Dog> allDogsFromOwnerId = facade.getAllDogsFromOwnerId(o1.getId());
+        assert(allDogsFromOwnerId.contains(d1) && allDogsFromOwnerId.contains(d2));
+    }
 
 
 }

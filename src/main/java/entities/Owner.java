@@ -108,6 +108,7 @@ public class Owner implements Serializable {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", dogs=" + dogs +
                 '}';
     }
 }

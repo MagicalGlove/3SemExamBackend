@@ -35,7 +35,7 @@ public class Dog implements Serializable {
     private String birthday;
 
     @ManyToOne
-//            (fetch = FetchType.LAZY)
+            (fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
@@ -48,6 +48,23 @@ public class Dog implements Serializable {
     private List<Walker> walkers = new ArrayList<>();
 
     public Dog() {}
+
+    public Dog(String name, String breed, String image, String gender, String birthday) {
+        this.name = name;
+        this.breed = breed;
+        this.image = image;
+        this.gender = gender;
+        this.birthday = birthday;
+    }
+
+    public Dog(Long id, String name, String breed, String image, String gender, String birthday) {
+        this.id = id;
+        this.name = name;
+        this.breed = breed;
+        this.image = image;
+        this.gender = gender;
+        this.birthday = birthday;
+    }
 
     public Dog(String name, String breed, String image, String gender, String birthday, List<Walker> walkers) {
         this.name = name;
@@ -127,6 +144,19 @@ public class Dog implements Serializable {
 
     public void setWalkers(List<Walker> walkers) {
         this.walkers = walkers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dog)) return false;
+        Dog dog = (Dog) o;
+        return getId().equals(dog.getId()) && Objects.equals(getName(), dog.getName()) && Objects.equals(getBreed(), dog.getBreed()) && Objects.equals(getImage(), dog.getImage()) && Objects.equals(getGender(), dog.getGender()) && Objects.equals(getBirthday(), dog.getBirthday());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getBreed(), getImage(), getGender(), getBirthday());
     }
 
     @Override
