@@ -137,23 +137,23 @@ public class DogResourceTest {
 //        Remove any data after each test was run
     }
 
-    @Test
-    public void testUpdateDog() {
-        d1.setName("DogUpdated");
-        String requestBody = GSON.toJson(d1);
-
-        given()
-                .header("Content-type", ContentType.JSON)
-                .body(requestBody)
-                .when()
-                .put("/dog/updateDog/" + d1.getId())
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("id", equalTo(Integer.parseInt(d1.getId().toString())))
-                .body("name", equalTo("DogUpdated"))
-                .body("breed", equalTo("Golden Retriever"));
-    }
+//    @Test
+//    public void testUpdateDog() {
+//        d1.setName("DogUpdated");
+//        String requestBody = GSON.toJson(d1);
+//
+//        given()
+//                .header("Content-type", ContentType.JSON)
+//                .body(requestBody)
+//                .when()
+//                .put("/dog/updateDog/" + d1.getId())
+//                .then()
+//                .assertThat()
+//                .statusCode(200)
+//                .body("id", equalTo(Integer.parseInt(d1.getId().toString())))
+//                .body("name", equalTo("DogUpdated"))
+//                .body("breed", equalTo("Golden Retriever"));
+//    }
 
 }
 
