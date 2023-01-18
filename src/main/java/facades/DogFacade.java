@@ -44,6 +44,19 @@ public class DogFacade {
         return owners;
     }
 
+    public Dog createDog(Dog dog){
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(dog);
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+        return dog;
+    }
+
     public Dog update(Dog dog){
         EntityManager em = emf.createEntityManager();
         try{

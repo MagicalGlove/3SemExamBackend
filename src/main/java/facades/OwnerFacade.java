@@ -62,7 +62,7 @@ public class OwnerFacade {
 
     public List<Dog> getAllDogs() {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d JOIN d.owner o", Dog.class);
+        TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d", Dog.class);
 
         List<Dog> dogs = query.getResultList();
         for (int i = 0; i < dogs.size(); i++) {

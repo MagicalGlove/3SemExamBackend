@@ -27,6 +27,17 @@ public class DogResource {
         return "{\"msg\":\"Hello World\"}";
     }
 
+    @POST
+//    @RolesAllowed("admin")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response createDog(String content) {
+        Dog dog = GSON.fromJson(content, Dog.class);
+        dog = FACADE.createDog(dog);
+
+        return Response.ok().entity(GSON.toJson(dog)).build();
+    }
+
     @PUT
     @Path("updateDog/{id}")
     @RolesAllowed("admin")
