@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entities.Dog;
 import entities.Owner;
+import facades.DogFacade;
 import facades.OwnerFacade;
 import utils.EMF_Creator;
 
@@ -20,6 +21,7 @@ public class OwnerResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final OwnerFacade FACADE = OwnerFacade.getOwnerFacade(EMF);
+    private static final DogFacade DOG_FACADE = DogFacade.getDogFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @GET
@@ -34,7 +36,7 @@ public class OwnerResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllDogsFromOwnerId(@PathParam("ownerId") long ownerId) throws EntityNotFoundException {
         if (ownerId == 0) {
-            List<Dog> allDogs = FACADE.getAllDogs();
+            List<Dog> allDogs = DOG_FACADE.getAllDogs();
             String json = GSON.toJson(allDogs);
             return Response.ok().entity(json).build();
         }

@@ -50,6 +50,14 @@ public class DogResource {
         return Response.ok().entity(GSON.toJson(updatedDog)).build();
     }
 
+    @DELETE
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("{id}")
+    public Response delete(@PathParam("id") long id ) {
+        Dog dog = FACADE.deleteDog(id);
+        return Response.ok().entity(GSON.toJson(dog)).build();
+    }
+
 }
 
 

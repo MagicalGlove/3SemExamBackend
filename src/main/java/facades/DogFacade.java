@@ -36,12 +36,27 @@ public class DogFacade {
         return emf.createEntityManager();
     }
 
-    public List<Owner> getAllOwners() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Owner> query = em.createQuery("SELECT o FROM Owner o", Owner.class);
-        List<Owner> owners = query.getResultList();
+    public long getDogCount(){
+        EntityManager em = getEntityManager();
+        try{
+            long dogCount = (long)em.createQuery("SELECT COUNT(d) FROM Dog d").getSingleResult();
+            return dogCount;
+        }finally{
+            em.close();
+        }
+    }
 
-        return owners;
+    public List<Dog> getAllDogs() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Dog> query = em.createQuery("SELECT d FROM Dog d", Dog.class);
+
+        List<Dog> dogs = query.getResultList();
+        for (int i = 0; i < dogs.size(); i++) {
+            dogs.get(i).setOwner(null);
+            dogs.get(i).setWalkers(null);
+        }
+
+        return dogs;
     }
 
     public Dog createDog(Dog dog){
@@ -70,6 +85,21 @@ public class DogFacade {
         return dog;
     }
 
+    public Dog deleteDog(long id) {
+        EntityManager em = emf.createEntityManager();
+
+        Dog dog = em.find(Dog.class, id);
+
+        try {
+            em.getTransaction().begin();
+            em.remove(dog);
+            em.getTransaction().commit();
+        }finally {
+            em.close();
+        }
+
+        return dog;
+    }
 
     public static void main(String[] args) {
     }
