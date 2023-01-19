@@ -2,10 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import entities.Dog;
-import entities.Owner;
 import entities.Walker;
-import facades.OwnerFacade;
 import facades.WalkerFacade;
 import utils.EMF_Creator;
 

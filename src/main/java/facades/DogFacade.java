@@ -1,10 +1,7 @@
 package facades;
 
-import dtos.OwnerDto;
 import entities.Dog;
 import entities.Owner;
-import rest.OwnerResource;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -15,10 +12,8 @@ public class DogFacade {
     private static DogFacade instance;
     private static EntityManagerFactory emf;
 
-    //Private Constructor to ensure Singleton
     private DogFacade() {
     }
-
 
     /**
      * @param _emf

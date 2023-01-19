@@ -1,10 +1,6 @@
 package facades;
 
-import dtos.OwnerDto;
-import entities.Dog;
-import entities.Owner;
 import entities.Walker;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;

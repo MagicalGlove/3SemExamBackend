@@ -1,16 +1,10 @@
 package facades;
 
-import dtos.OwnerDto;
 import entities.Dog;
 import entities.Owner;
-import entities.Walker;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.*;
 
 public class OwnerFacade {
@@ -48,16 +42,6 @@ public class OwnerFacade {
         }finally{
             em.close();
         }
-    }
-
-    public List<Owner> getAllOwners() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Owner> query = em.createQuery("SELECT o FROM Owner o INNER JOIN FETCH o.dogs", Owner.class);
-
-        List<Owner> owners = query.getResultList();
-        System.out.println("Owners OWOWOWO: " + owners);
-
-        return owners;
     }
 
     public Owner getById(long id) {
