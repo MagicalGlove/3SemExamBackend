@@ -3,6 +3,7 @@ package facades;
 import dtos.OwnerDto;
 import entities.Dog;
 import entities.Owner;
+import rest.OwnerResource;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -44,6 +45,26 @@ public class DogFacade {
         } finally {
             em.close();
         }
+    }
+
+    public void connectOwnerToDog(long dogId, long ownerId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            Dog dog = em.find(Dog.class, dogId);
+
+            Owner owner = em.find(Owner.class, ownerId);
+
+            dog.setOwner(owner);
+
+            em.merge(dog);
+
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
     }
 
     public List<Dog> getAllDogs() {

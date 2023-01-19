@@ -35,6 +35,12 @@ public class DogResource {
         return Response.ok().entity(GSON.toJson(dog)).build();
     }
 
+    @PUT
+    @Path("connectOwner/{dogId}/{ownerId}")
+    public void connect(@PathParam("dogId") long dogId, @PathParam("ownerId") long ownerId) {
+        FACADE.connectOwnerToDog(dogId, ownerId);
+    }
+
     @POST
 //    @RolesAllowed("admin")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -61,7 +67,7 @@ public class DogResource {
     @DELETE
     @Produces({MediaType.APPLICATION_JSON})
     @Path("{id}")
-    public Response delete(@PathParam("id") long id ) {
+    public Response delete(@PathParam("id") long id) {
         Dog dog = FACADE.deleteDog(id);
         return Response.ok().entity(GSON.toJson(dog)).build();
     }

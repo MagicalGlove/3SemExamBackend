@@ -60,6 +60,20 @@ public class OwnerFacade {
         return owners;
     }
 
+    public Owner getById(long id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Owner owner = em.find(Owner.class, id);
+            System.out.println(owner);
+            owner.setDogs(null);
+            System.out.println("Owner in OwnerFacade: " + owner);
+            return owner;
+        } finally {
+            em.close();
+        }
+    }
+
+
 
 
     public List<Dog> getAllDogsFromOwnerId(long ownerId) {

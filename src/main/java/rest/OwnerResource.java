@@ -47,4 +47,12 @@ public class OwnerResource {
         return Response.ok().entity(json).build();
     }
 
+    @GET
+    @Path("/getbyid/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getById(@PathParam("id") int id) {
+        Owner owner = FACADE.getById(id);
+        return Response.ok().entity(GSON.toJson(owner)).build();
+    }
+
 }
