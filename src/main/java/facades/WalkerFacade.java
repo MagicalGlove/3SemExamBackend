@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.OwnerDto;
+import entities.Dog;
 import entities.Owner;
 import entities.Walker;
 
@@ -39,14 +40,27 @@ public class WalkerFacade {
         return emf.createEntityManager();
     }
 
-    public long getWalkerCount(){
+    public long getWalkerCount() {
         EntityManager em = getEntityManager();
-        try{
-            long walkerCounter = (long)em.createQuery("SELECT COUNT(w) FROM Walker w").getSingleResult();
+        try {
+            long walkerCounter = (long) em.createQuery("SELECT COUNT(w) FROM Walker w").getSingleResult();
             return walkerCounter;
-        }finally{
+        } finally {
             em.close();
         }
+    }
+
+    public List<Walker> getAllWalkersFromDogId(long dogId) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Walker> query = em.createQuery("SELECT w FROM Walker w JOIN w.dogs d WHERE d.id = :dogId", Walker.class);
+        query.setParameter("dogId", dogId);
+
+        List<Walker> walkers = query.getResultList();
+        for (int i = 0; i < walkers.size(); i++) {
+            walkers.get(i).setDogs(null);
+        }
+
+        return walkers;
     }
 
     public ArrayList<Walker> getAllWalkers() {

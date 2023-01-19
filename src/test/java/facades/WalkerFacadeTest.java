@@ -78,6 +78,7 @@ public class WalkerFacadeTest {
             o2 = new Owner("Jane Doe", "456 Park Ave", "45678912", oDogs2);
 
             w1.getDogs().add(d1);
+            w2.getDogs().add(d1);
             w2.getDogs().add(d2);
 
             d1.setOwner(o1);
@@ -121,6 +122,13 @@ public class WalkerFacadeTest {
         System.out.println("w1: " + w1);
         System.out.println("w2: " + w2);
         assert(allWalkers.contains(w1) && allWalkers.contains(w2));
+    }
+
+    @Test
+    public void getAllDogsFromOwnerId(){
+        System.out.println("Testing get all walkers from Dog Id");
+        List<Walker> allWalkersFromDogId = facade.getAllWalkersFromDogId(d1.getId());
+        assert(allWalkersFromDogId.contains(w1) && allWalkersFromDogId.contains(w2));
     }
 
 }
